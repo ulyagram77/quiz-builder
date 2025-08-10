@@ -1,69 +1,101 @@
-# React + TypeScript + Vite
+# Quiz builder frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Table of Contents
 
-Currently, two official plugins are available:
+- [Requirements](#requirements)
+- [Tech Stack](#tech-stack)
+- [Run Locally](#run-locally)
+- [Environment Variables](#environment-variables)
+- [Other Commands](#other-commands)
+- [Code Quality Tools](#code-quality-tools)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Requirements
 
-## Expanding the ESLint configuration
+- Node.js
+- Configured `.env` file
+- Yarn (optional)
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Tech Stack
 
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+- [Vite](https://vitejs.dev/)
+- [React](https://react.dev/)
+- [TypeScript](https://www.typescriptlang.org/)
+- [Tanstack React Router](https://tanstack.com/router/latest)
+- [Tanstack React Querry](https://tanstack.com/query/latest)
+- [React Hook Form](https://react-hook-form.com/)
+- [Shadcn UI](https://ui.shadcn.com/)
+- [Tailwind CSS](https://tailwindcss.com/)
 
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
+## Run Locally
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+Clone the project
+
+```bash
+  git clone https://github.com/ulyagram77/quiz-builder.git
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+Go to the project directory
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+  cd frontend
 ```
+
+Install dependencies
+
+```bash
+  yarn
+```
+
+Create environment file
+
+```bash
+  cp .env.example .env
+```
+
+Fill in the environment variables in `.env` file (see [Environment Variables](#environment-variables) section)
+
+Start the development server
+
+```bash
+  yarn dev
+```
+
+## Environment Variables
+
+To run this project, you will need to add the following environment variables to your .env file
+
+| Parameter          | Description                                               |
+| :----------------- | :-------------------------------------------------------- |
+| `VITE_BACKEND_API` | The URL of the backend API (e.g. <http://localhost:3000>) |
+
+## Other Commands
+
+Compile and run the project:
+
+```bash
+# run project in development mode
+$ yarn dev
+
+# build and run builded project in production mode
+$ yarn preview
+
+# build for production
+$ yarn build
+```
+
+Team instruments:
+
+```bash
+# run the linter
+$ yarn run lint
+
+# run the formatter
+$ yarn run format
+```
+
+## Code Quality Tools
+
+This project uses the following tools to ensure code quality and consistency:
+
+- **[ESLint](https://eslint.org/)** – Lints JavaScript/TypeScript code
+- **[Prettier](https://prettier.io/)** – Formats code automatically
