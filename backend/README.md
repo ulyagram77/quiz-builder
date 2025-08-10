@@ -18,7 +18,10 @@
 
 ## Tech Stack
 
-[![My Skills](https://skillicons.dev/icons?i=ts,nest,prisma,sqlite&theme=dark)](https://skillicons.dev)
+- [NestJS](https://nestjs.com/)
+- [TypeScript](https://www.typescriptlang.org/)
+- [Prisma](https://prisma.io/)
+- [Sqlite](https://www.sqlite.org/)
 
 ## Run Locally
 
@@ -143,9 +146,3 @@ This project uses the following tools to ensure code quality and consistency:
 
 - **[ESLint](https://eslint.org/)** – Lints JavaScript/TypeScript code
 - **[Prettier](https://prettier.io/)** – Formats code automatically
-- **[Husky](https://typicode.github.io/husky/)** – Runs linting and formatting on git hooks
-- **[Lint-staged](https://github.com/okonet/lint-staged)** – Runs linting and formatting on staged files
-
-> [!NOTE]
-> All tools are automatically triggered on commit using `husky` and `lint-staged`.  
-> Only staged files are checked and auto-fixed before committing.
