@@ -89,6 +89,7 @@ To run this project, you will need to add the following environment variables to
 | `NODE_ENV`     | Node environment (development, production)      |
 | `PORT`         | Port on which server will run (3000 if not set) |
 | `DATABASE_URL` | Your `sqlite` file location                     |
+| `FRONTEND_URL` | Your frontend url                               |
 
 ## Other Commands
 
