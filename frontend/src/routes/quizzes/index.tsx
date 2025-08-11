@@ -48,9 +48,7 @@ function TableSkeleton() {
       <TableHeader>
         <TableRow>
           {TABLE_COLUMNS.map((column) => (
-            <TableHead key={column.key} className="text-center">
-              {column.label}
-            </TableHead>
+            <TableHead key={column.key}>{column.label}</TableHead>
           ))}
         </TableRow>
       </TableHeader>
@@ -63,13 +61,13 @@ function TableSkeleton() {
             <TableCell>
               <Skeleton className="h-4 w-64" />
             </TableCell>
-            <TableCell className="text-center">
+            <TableCell>
               <Skeleton className="h-6 w-20 rounded-full mx-auto" />
             </TableCell>
-            <TableCell className="text-center">
+            <TableCell>
               <Skeleton className="h-4 w-24 mx-auto" />
             </TableCell>
-            <TableCell className="text-center">
+            <TableCell>
               <Skeleton className="h-8 w-8 mx-auto" />
             </TableCell>
           </TableRow>
@@ -163,7 +161,7 @@ function QuizzesPage() {
         </div>
 
         {!quizzes || quizzes.length === 0 ? (
-          <div className="text-center py-12">
+          <div className=" py-12">
             <div className="text-muted-foreground mb-4">No quizzes found</div>
             <Button asChild>
               <Link to="/quizzes/create">
@@ -177,9 +175,7 @@ function QuizzesPage() {
             <TableHeader>
               <TableRow>
                 {TABLE_COLUMNS.map((column) => (
-                  <TableHead key={column.key} className="text-center">
-                    {column.label}
-                  </TableHead>
+                  <TableHead key={column.key}>{column.label}</TableHead>
                 ))}
               </TableRow>
             </TableHeader>
@@ -194,16 +190,16 @@ function QuizzesPage() {
                   <TableCell className="text-muted-foreground max-w-md truncate">
                     {quiz.description || 'No description'}
                   </TableCell>
-                  <TableCell className="text-center">
+                  <TableCell>
                     <span className="inline-flex items-center px-2 py-1 rounded-full text-xs bg-blue-100 text-blue-800">
                       {quiz.questionsCount}{' '}
                       {quiz.questionsCount === 1 ? 'question' : 'questions'}
                     </span>
                   </TableCell>
-                  <TableCell className="text-center text-muted-foreground">
+                  <TableCell className=" text-muted-foreground">
                     {new Date(quiz.createdAt).toLocaleDateString()}
                   </TableCell>
-                  <TableCell className="text-center">
+                  <TableCell>
                     <Tooltip>
                       <TooltipTrigger asChild>
                         <Button
