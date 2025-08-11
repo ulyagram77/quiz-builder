@@ -1,4 +1,3 @@
-// routes/quizzes/index.tsx
 import {
   AlertDialog,
   AlertDialogAction,
@@ -26,13 +25,9 @@ import {
 } from '@/components/ui/tooltip';
 import { useDeleteQuiz, useQuizzes } from '@/core/hooks/api/useQuizzes';
 import type { QuizListDto } from '@/core/types/api-response.types';
-import { Link, createFileRoute, useNavigate } from '@tanstack/react-router';
+import { Link, useNavigate } from '@tanstack/react-router';
 import { Plus, Trash2 } from 'lucide-react';
 import { useState } from 'react';
-
-export const Route = createFileRoute('/quizzes/')({
-  component: QuizzesPage,
-});
 
 const TABLE_COLUMNS = [
   { key: 'title', label: 'Title' },
@@ -77,7 +72,7 @@ function TableSkeleton() {
   );
 }
 
-function QuizzesPage() {
+export default function QuizzesTable() {
   const navigate = useNavigate();
   const { data: quizzes, isLoading, error } = useQuizzes();
   const deleteQuizMutation = useDeleteQuiz();
@@ -149,78 +144,66 @@ function QuizzesPage() {
 
   return (
     <>
-      <div className="space-y-6">
-        <div className="flex justify-between items-center">
-          <h1 className="text-3xl font-bold">Quizzes</h1>
+      {!quizzes || quizzes.length === 0 ? (
+        <div className=" py-12">
+          <div className="text-muted-foreground mb-4">No quizzes found</div>
           <Button asChild>
             <Link to="/quizzes/create">
               <Plus className="w-4 h-4 mr-2" />
-              Create Quiz
+              Create your first quiz
             </Link>
           </Button>
         </div>
-
-        {!quizzes || quizzes.length === 0 ? (
-          <div className=" py-12">
-            <div className="text-muted-foreground mb-4">No quizzes found</div>
-            <Button asChild>
-              <Link to="/quizzes/create">
-                <Plus className="w-4 h-4 mr-2" />
-                Create your first quiz
-              </Link>
-            </Button>
-          </div>
-        ) : (
-          <Table>
-            <TableHeader>
-              <TableRow>
-                {TABLE_COLUMNS.map((column) => (
-                  <TableHead key={column.key}>{column.label}</TableHead>
-                ))}
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {quizzes.map((quiz) => (
-                <TableRow
-                  key={quiz.id}
-                  className="cursor-pointer hover:bg-muted/50"
-                  onClick={() => handleRowClick(quiz.id)}
-                >
-                  <TableCell className="font-medium">{quiz.title}</TableCell>
-                  <TableCell className="text-muted-foreground max-w-md truncate">
-                    {quiz.description || 'No description'}
-                  </TableCell>
-                  <TableCell>
-                    <span className="inline-flex items-center px-2 py-1 rounded-full text-xs bg-blue-100 text-blue-800">
-                      {quiz.questionsCount}{' '}
-                      {quiz.questionsCount === 1 ? 'question' : 'questions'}
-                    </span>
-                  </TableCell>
-                  <TableCell className=" text-muted-foreground">
-                    {new Date(quiz.createdAt).toLocaleDateString()}
-                  </TableCell>
-                  <TableCell>
-                    <Tooltip>
-                      <TooltipTrigger asChild>
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          onClick={(e) => openDeleteDialog(quiz, e)}
-                          disabled={deleteQuizMutation.isPending}
-                          className="text-red-600 hover:text-red-800 hover:bg-red-50"
-                        >
-                          <Trash2 className="w-4 h-4" />
-                        </Button>
-                      </TooltipTrigger>
-                      <TooltipContent>Delete quiz</TooltipContent>
-                    </Tooltip>
-                  </TableCell>
-                </TableRow>
+      ) : (
+        <Table>
+          <TableHeader>
+            <TableRow>
+              {TABLE_COLUMNS.map((column) => (
+                <TableHead key={column.key}>{column.label}</TableHead>
               ))}
-            </TableBody>
-          </Table>
-        )}
-      </div>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {quizzes.map((quiz) => (
+              <TableRow
+                key={quiz.id}
+                className="cursor-pointer hover:bg-muted/50"
+                onClick={() => handleRowClick(quiz.id)}
+              >
+                <TableCell className="font-medium">{quiz.title}</TableCell>
+                <TableCell className="text-muted-foreground max-w-md truncate">
+                  {quiz.description || 'No description'}
+                </TableCell>
+                <TableCell>
+                  <span className="inline-flex items-center px-2 py-1 rounded-full text-xs bg-blue-100 text-blue-800">
+                    {quiz.questionsCount}{' '}
+                    {quiz.questionsCount === 1 ? 'question' : 'questions'}
+                  </span>
+                </TableCell>
+                <TableCell className=" text-muted-foreground">
+                  {new Date(quiz.createdAt).toLocaleDateString()}
+                </TableCell>
+                <TableCell>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={(e) => openDeleteDialog(quiz, e)}
+                        disabled={deleteQuizMutation.isPending}
+                        className="text-red-600 hover:text-red-800 hover:bg-red-50"
+                      >
+                        <Trash2 className="w-4 h-4" />
+                      </Button>
+                    </TooltipTrigger>
+                    <TooltipContent>Delete quiz</TooltipContent>
+                  </Tooltip>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      )}
 
       <AlertDialog open={deleteDialog.isOpen} onOpenChange={closeDeleteDialog}>
         <AlertDialogContent>

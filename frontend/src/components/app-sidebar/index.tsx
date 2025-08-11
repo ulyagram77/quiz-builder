@@ -42,7 +42,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             >
               <div>
                 <Avatar className="size-5 rounded-sm">
-                  <AvatarImage src={logo} />
+                  <AvatarImage src={logo} alt="logo" />
                   <AvatarFallback>CN</AvatarFallback>
                 </Avatar>
                 <span className="font-semibold">Quizz Builder</span>

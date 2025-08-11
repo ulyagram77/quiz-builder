@@ -8,51 +8,56 @@
 // You should NOT make any changes in this file as it will be overwritten.
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
+import { createFileRoute } from '@tanstack/react-router'
+
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as QuizzesIndexRouteImport } from './routes/quizzes/index'
-import { Route as QuizzesCreateRouteImport } from './routes/quizzes/create'
-import { Route as QuizzesIdRouteImport } from './routes/quizzes/$id'
+
+const QuizzesIndexLazyRouteImport = createFileRoute('/quizzes/')()
+const QuizzesCreateLazyRouteImport = createFileRoute('/quizzes/create')()
+const QuizzesIdLazyRouteImport = createFileRoute('/quizzes/$id')()
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const QuizzesIndexRoute = QuizzesIndexRouteImport.update({
+const QuizzesIndexLazyRoute = QuizzesIndexLazyRouteImport.update({
   id: '/quizzes/',
   path: '/quizzes/',
   getParentRoute: () => rootRouteImport,
-} as any)
-const QuizzesCreateRoute = QuizzesCreateRouteImport.update({
+} as any).lazy(() => import('./routes/quizzes/index.lazy').then((d) => d.Route))
+const QuizzesCreateLazyRoute = QuizzesCreateLazyRouteImport.update({
   id: '/quizzes/create',
   path: '/quizzes/create',
   getParentRoute: () => rootRouteImport,
-} as any)
-const QuizzesIdRoute = QuizzesIdRouteImport.update({
+} as any).lazy(() =>
+  import('./routes/quizzes/create.lazy').then((d) => d.Route),
+)
+const QuizzesIdLazyRoute = QuizzesIdLazyRouteImport.update({
   id: '/quizzes/$id',
   path: '/quizzes/$id',
   getParentRoute: () => rootRouteImport,
-} as any)
+} as any).lazy(() => import('./routes/quizzes/$id.lazy').then((d) => d.Route))
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/quizzes/$id': typeof QuizzesIdRoute
-  '/quizzes/create': typeof QuizzesCreateRoute
-  '/quizzes': typeof QuizzesIndexRoute
+  '/quizzes/$id': typeof QuizzesIdLazyRoute
+  '/quizzes/create': typeof QuizzesCreateLazyRoute
+  '/quizzes': typeof QuizzesIndexLazyRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/quizzes/$id': typeof QuizzesIdRoute
-  '/quizzes/create': typeof QuizzesCreateRoute
-  '/quizzes': typeof QuizzesIndexRoute
+  '/quizzes/$id': typeof QuizzesIdLazyRoute
+  '/quizzes/create': typeof QuizzesCreateLazyRoute
+  '/quizzes': typeof QuizzesIndexLazyRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/quizzes/$id': typeof QuizzesIdRoute
-  '/quizzes/create': typeof QuizzesCreateRoute
-  '/quizzes/': typeof QuizzesIndexRoute
+  '/quizzes/$id': typeof QuizzesIdLazyRoute
+  '/quizzes/create': typeof QuizzesCreateLazyRoute
+  '/quizzes/': typeof QuizzesIndexLazyRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -64,9 +69,9 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  QuizzesIdRoute: typeof QuizzesIdRoute
-  QuizzesCreateRoute: typeof QuizzesCreateRoute
-  QuizzesIndexRoute: typeof QuizzesIndexRoute
+  QuizzesIdLazyRoute: typeof QuizzesIdLazyRoute
+  QuizzesCreateLazyRoute: typeof QuizzesCreateLazyRoute
+  QuizzesIndexLazyRoute: typeof QuizzesIndexLazyRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -82,21 +87,21 @@ declare module '@tanstack/react-router' {
       id: '/quizzes/'
       path: '/quizzes'
       fullPath: '/quizzes'
-      preLoaderRoute: typeof QuizzesIndexRouteImport
+      preLoaderRoute: typeof QuizzesIndexLazyRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/quizzes/create': {
       id: '/quizzes/create'
       path: '/quizzes/create'
       fullPath: '/quizzes/create'
-      preLoaderRoute: typeof QuizzesCreateRouteImport
+      preLoaderRoute: typeof QuizzesCreateLazyRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/quizzes/$id': {
       id: '/quizzes/$id'
       path: '/quizzes/$id'
       fullPath: '/quizzes/$id'
-      preLoaderRoute: typeof QuizzesIdRouteImport
+      preLoaderRoute: typeof QuizzesIdLazyRouteImport
       parentRoute: typeof rootRouteImport
     }
   }
@@ -104,9 +109,9 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  QuizzesIdRoute: QuizzesIdRoute,
-  QuizzesCreateRoute: QuizzesCreateRoute,
-  QuizzesIndexRoute: QuizzesIndexRoute,
+  QuizzesIdLazyRoute: QuizzesIdLazyRoute,
+  QuizzesCreateLazyRoute: QuizzesCreateLazyRoute,
+  QuizzesIndexLazyRoute: QuizzesIndexLazyRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
